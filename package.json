@@ -11,21 +11,21 @@
     "latest": "pnpm update --interactive --latest"
   },
   "dependencies": {
-    "@alpinejs/persist": "^3.15.0",
-    "@astrojs/alpinejs": "^0.4.9",
-    "@astrojs/sitemap": "^3.6.0",
-    "@lucide/astro": "^0.545.0",
-    "@sanity/client": "^7.11.2",
-    "@sindresorhus/slugify": "^3.0.0",
-    "@tailwindcss/vite": "^4.1.13",
-    "@types/alpinejs": "^3.13.11",
-    "alpinejs": "^3.15.0",
-    "astro": "^5.13.10",
-    "astro-i18n-aut": "^0.7.3",
-    "astro-portabletext": "^0.11.3",
-    "fuse.js": "^7.1.0",
-    "groq": "^4.10.0",
-    "tailwindcss": "^4.1.13"
+    "@alpinejs/persist": "^3.17.5",
+    "@astrojs/alpinejs": "^1.0.0",
+    "@astrojs/sitemap": "^3.7.4",
+    "@lucide/astro": "^1.61.0",
+    "@sanity/client": "^8.11.0",
+    "@sindresorhus/slugify": "^3.0.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/alpinejs": "^3.17.0",
+    "alpinejs": "^3.17.5",
+    "astro": "^7.4.2",
+    "astro-i18n-aut": "^0.8.1",
+    "astro-portabletext": "^1.0.1",
+    "fuse.js": "^7.5.0",
+    "groq": "^6.20.0",
+    "tailwindcss": "^4.3.3"
   },
   "engines": {
     "node": ">=22.0.0"
