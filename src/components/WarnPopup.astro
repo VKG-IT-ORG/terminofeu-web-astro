@@ -1,52 +1,41 @@
 ---
 import { getLocale } from 'astro-i18n-aut'
 const locale = getLocale(Astro.url)
+
+const text = {
+  title: locale === 'fr' ? 'Attention' : locale === 'it' ? 'Attenzione' : 'Hinweis',
+  message:
+    locale === 'fr'
+      ? 'Le contenu de ce site est encore en cours d’élaboration.'
+      : locale === 'it'
+        ? 'I contenuti di questo sito sono ancora in fase di elaborazione.'
+        : 'Die Inhalte dieser Website befinden sich noch in Bearbeitung.',
+  button:
+    locale === 'fr'
+      ? 'J’ai compris'
+      : locale === 'it'
+        ? 'Ho capito'
+        : 'Verstanden',
+}
 ---
 
 <dialog
+  x-data
+  x-init="if ($store.global.showWarnPopup) $el.showModal()"
+  @close="$store.global.showWarnPopup = false"
   id="work-in-progress-dialog"
   class="m-auto w-[calc(100%-2rem)] max-w-lg rounded-lg bg-white p-6 shadow-xl backdrop:bg-black/50"
 >
   <h2 id="work-in-progress-title" class="text-xl font-bold text-primary">
-    {
-      locale === 'fr'
-        ? 'Attention'
-        : locale === 'it'
-          ? 'Attenzione'
-          : 'Hinweis'
-    }
+    {text.title}
   </h2>
-  <p id="work-in-progress-message" class="mt-3 text-noir">
-    {
-      locale === 'fr'
-        ? 'Le contenu de ce site est encore en cours d’élaboration.'
-        : locale === 'it'
-          ? 'I contenuti di questo sito sono ancora in fase di elaborazione.'
-          : 'Die Inhalte dieser Website befinden sich noch in Bearbeitung.'
-    }
-  </p>
+  <p id="work-in-progress-message" class="mt-3 text-noir">{text.message}</p>
   <form method="dialog">
     <button
       type="submit"
       class="mt-6 rounded-lg bg-primary px-4 py-2 font-semibold text-white hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
     >
-      {
-        locale === 'fr'
-          ? 'J’ai compris'
-          : locale === 'it'
-            ? 'Ho capito'
-            : 'Verstanden'
-      }
+      {text.button}
     </button>
   </form>
 </dialog>
-
-<script>
-  const dialog = document.querySelector<HTMLDialogElement>(
-    '#work-in-progress-dialog'
-  )
-
-  if (dialog && !dialog.open) {
-    dialog.showModal()
-  }
-</script>
