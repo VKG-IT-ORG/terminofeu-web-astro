@@ -15,13 +15,14 @@ import { Check } from '@lucide/astro'
         type="checkbox"
         :id="'lang-' + lang.code"
         :value="lang.code"
+        :disabled="lang.code === 'it'"
         x-model="$store.global.langs"
         @change="if ($store.global.langs.length === 0) $store.global.langs = [lang.code]"
       />
       <label
         :for="'lang-' + lang.code"
         class="capitalize w-max rounded-lg py-1 px-3 flex items-center gap-3 border border-muted"
-        :class="$store.global.langs.includes(lang.code) ? 'bg-gray-900 text-white' : 'bg-white text-noir'"
+        :class="lang.code === 'it' ? 'bg-gray-100 text-gray-400 opacity-50 cursor-not-allowed' : ($store.global.langs.includes(lang.code) ? 'bg-gray-900 text-white' : 'bg-white text-noir')"
       >
         <div x-html="lang.flag" class="w-4 h-3"></div>
         <span x-text="lang.name"></span>
