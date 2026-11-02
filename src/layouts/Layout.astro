@@ -1,16 +1,19 @@
 ---
 import '../styles/global.css'
 import Footer from '@/components/Footer.astro'
+import { getLocale } from 'astro-i18n-aut'
+import WarnPopup from '@/components/WarnPopup.astro'
 
 interface Props {
   title: string
 }
 
+const locale = getLocale(Astro.url)
 const { title } = Astro.props
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -27,5 +30,6 @@ const { title } = Astro.props
       </div>
       <Footer />
     </div>
+    <WarnPopup />
   </body>
 </html>

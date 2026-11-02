@@ -16,6 +16,7 @@ export default (Alpine) => {
 
   Alpine.store('global', {
     langs: Alpine.$persist(['de', 'fr']).as('languages_display'),
+    showWarnPopup: Alpine.$persist(true).as('work_in_progress_acknowledged'),
   })
 
   Alpine.data('search', () => ({
@@ -33,7 +34,7 @@ export default (Alpine) => {
               { $or: this.$store.global.langs.map((lang) => ({ lang })) },
             ],
           },
-          { limit: 7 }
+          { limit: 7 },
         )
       })
     },
