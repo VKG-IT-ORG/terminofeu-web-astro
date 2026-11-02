@@ -2,6 +2,7 @@
 import '../styles/global.css'
 import Footer from '@/components/Footer.astro'
 import { getLocale } from 'astro-i18n-aut'
+import WarnPopup from '@/components/WarnPopup.astro'
 
 interface Props {
   title: string
@@ -29,5 +30,6 @@ const { title } = Astro.props
       </div>
       <Footer />
     </div>
+    <WarnPopup />
   </body>
 </html>

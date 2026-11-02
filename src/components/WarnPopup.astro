@@ -1,0 +1,53 @@
+---
+import { getLocale } from 'astro-i18n-aut'
+const locale = getLocale(Astro.url)
+---
+
+<div
+  x-data="{ open: true }"
+  x-show="open"
+  x-cloak
+  x-transition.opacity
+  @keydown.escape.window="open = false"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+>
+  <section
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="work-in-progress-title"
+    aria-describedby="work-in-progress-message"
+    class="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl"
+  >
+    <h2 id="work-in-progress-title" class="text-xl font-bold text-primary">
+      {
+        locale === 'fr'
+          ? 'Attention'
+          : locale === 'it'
+            ? 'Attenzione'
+            : 'Hinweis'
+      }
+    </h2>
+    <p id="work-in-progress-message" class="mt-3 text-noir">
+      {
+        locale === 'fr'
+          ? 'Le contenu de ce site est encore en cours d’élaboration.'
+          : locale === 'it'
+            ? 'I contenuti di questo sito sono ancora in fase di elaborazione.'
+            : 'Die Inhalte dieser Website befinden sich noch in Bearbeitung.'
+      }
+    </p>
+    <button
+      type="button"
+      @click="open = false"
+      class="mt-6 rounded-lg bg-primary px-4 py-2 font-semibold text-white hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+    >
+      {
+        locale === 'fr'
+          ? 'J’ai compris'
+          : locale === 'it'
+            ? 'Ho capito'
+            : 'Verstanden'
+      }
+    </button>
+  </section>
+</div>
