@@ -1,6 +1,5 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import Search from '@/components/Search.astro'
 import { getLocale, getLocaleUrl } from 'astro-i18n-aut'
 import data from '../terms-list.json'
 
@@ -15,41 +14,83 @@ const groupedTerms = [...data]
     groups[letter].push(term)
     return groups
   }, {})
+
+const sortedGroups = Object.entries(groupedTerms).sort(([left], [right]) =>
+  left.localeCompare(right, locale, { sensitivity: 'base' }),
+)
+const termCount = Object.values(groupedTerms).reduce(
+  (count, terms) => count + terms.length,
+  0,
+)
 ---
 
 <Layout title="Begriffsliste">
-  <div class="mx-auto max-w-4xl px-4 py-12">
+  <div class="mx-auto max-w-6xl rounded-lg bg-white px-6 py-10 sm:px-10 sm:py-12">
     <a
-      class="mb-6 inline-block text-blue-700 hover:underline"
+      class="mb-6 inline-block text-sm text-primary hover:text-accent hover:underline"
       href={getLocaleUrl('/', locale)}
     >
-      Zurück zur Startseite
+      <span aria-hidden="true">←</span>
+      Zurück zur Suche
     </a>
-    <h1 class="mb-8 text-3xl font-bold">Begriffsliste</h1>
 
-    <div class="space-y-8">
-      {
-        Object.entries(groupedTerms)
-          .sort(([left], [right]) =>
-            left.localeCompare(right, locale, { sensitivity: 'base' }),
-          )
-          .map(([letter, terms]) => (
-            <section>
-              <h2 class="mb-3 text-2xl font-semibold">{letter}</h2>
-              <ul class="list-disc space-y-1 pl-6">
-                {terms.map((term) => (
-                  <li>
-                    <a
-                      class="text-blue-700 hover:underline"
-                      href={`/eintrag/${term.slug}`}
-                    >
-                      {term.term}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
+    <header class="mb-8 border-b border-gray-200 pb-6">
+      <h1 class="text-3xl font-bold text-gray-900">Begriffsliste</h1>
+      <p class="mt-2 text-gray-600">
+        {termCount} {termCount === 1 ? 'Fachbegriff' : 'Fachbegriffe'} aus dem Brandschutz.
+      </p>
+    </header>
+
+    <nav
+      aria-label="Nach Anfangsbuchstaben springen"
+      class="mb-8"
+    >
+      <p class="mb-2 text-sm font-medium text-gray-700">
+        Direkt zu
+      </p>
+      <div class="flex flex-wrap gap-x-4 gap-y-2">
+        {
+          sortedGroups.map(([letter]) => (
+            <a
+              class="text-sm font-medium text-primary hover:text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              href={`#letter-${letter.toLowerCase()}`}
+            >
+              {letter}
+            </a>
           ))
+        }
+      </div>
+    </nav>
+
+    <div class="grid grid-cols-1 items-start gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        sortedGroups.map(([letter, terms]) => (
+          <section
+            id={`letter-${letter.toLowerCase()}`}
+            class="scroll-mt-6 border-t border-gray-200 py-5"
+          >
+            <div class="mb-2 flex items-center justify-between">
+              <h2 class="text-xl font-semibold text-gray-900">
+                {letter}
+              </h2>
+              <span class="text-xs text-gray-500">
+                {terms.length}
+              </span>
+            </div>
+            <ul>
+              {terms.map((term) => (
+                <li>
+                  <a
+                    class="block py-1.5 text-sm leading-5 text-gray-700 hover:text-accent hover:underline"
+                    href={`/eintrag/${term.slug}`}
+                  >
+                    <span>{term.term}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
       }
     </div>
   </div>
