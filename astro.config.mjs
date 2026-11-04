@@ -10,6 +10,7 @@ import { defaultLocale, locales } from './src/i18n/config.ts'
 export default defineConfig({
   site: 'https://terminofeu.ch/',
   trailingSlash: 'always',
+  compressHTML: false,
   build: {
     format: 'directory',
   },
