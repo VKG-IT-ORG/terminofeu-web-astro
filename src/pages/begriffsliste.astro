@@ -1,0 +1,51 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Search from '@/components/Search.astro'
+import { languages } from '@/i18n/config'
+import { getLocale } from 'astro-i18n-aut'
+import data from '../terms-list.json'
+
+const locale = getLocale(Astro.url)
+
+const groupedTerms = [...data]
+  .filter((term) => term.lang === locale)
+  .sort((a, b) => a.term.localeCompare(b.term, locale, { sensitivity: 'base' }))
+  .reduce<Record<string, typeof data>>((groups, term) => {
+    const letter = (term.term.charAt(0) || '').toUpperCase()
+    if (!groups[letter]) groups[letter] = []
+    groups[letter].push(term)
+    return groups
+  }, {})
+---
+
+<Layout title="Begriffsliste">
+  <div class="mx-auto max-w-4xl px-4 py-12">
+    <h1 class="mb-8 text-3xl font-bold">Begriffsliste</h1>
+
+    <div class="space-y-8">
+      {
+        Object.entries(groupedTerms)
+          .sort(([left], [right]) =>
+            left.localeCompare(right, locale, { sensitivity: 'base' }),
+          )
+          .map(([letter, terms]) => (
+            <section>
+              <h2 class="mb-3 text-2xl font-semibold">{letter}</h2>
+              <ul class="list-disc space-y-1 pl-6">
+                {terms.map((term) => (
+                  <li>
+                    <a
+                      class="text-blue-700 hover:underline"
+                      href={`/eintrag/${term.slug}`}
+                    >
+                      {term.term}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+      }
+    </div>
+  </div>
+</Layout>
