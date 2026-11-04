@@ -9,9 +9,7 @@ const groupedTerms = [...data]
   .filter((term) => term.lang === locale)
   .sort((a, b) => a.term.localeCompare(b.term, locale, { sensitivity: 'base' }))
   .reduce<Record<string, typeof data>>((groups, term) => {
-    const firstLetter =
-      term.term.normalize('NFD').match(/^\p{L}\p{M}*/u)?.[0] || ''
-    const letter = firstLetter.replace(/\p{M}/gu, '').toUpperCase()
+    const letter = term.term.normalize('NFD').charAt(0).toUpperCase()
     if (!groups[letter]) groups[letter] = []
     groups[letter].push(term)
     return groups
