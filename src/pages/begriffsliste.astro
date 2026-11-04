@@ -1,8 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import Search from '@/components/Search.astro'
-import { languages } from '@/i18n/config'
-import { getLocale } from 'astro-i18n-aut'
+import { getLocale, getLocaleUrl } from 'astro-i18n-aut'
 import data from '../terms-list.json'
 
 const locale = getLocale(Astro.url)
@@ -20,6 +19,12 @@ const groupedTerms = [...data]
 
 <Layout title="Begriffsliste">
   <div class="mx-auto max-w-4xl px-4 py-12">
+    <a
+      class="mb-6 inline-block text-blue-700 hover:underline"
+      href={getLocaleUrl('/', locale)}
+    >
+      Zurück zur Startseite
+    </a>
     <h1 class="mb-8 text-3xl font-bold">Begriffsliste</h1>
 
     <div class="space-y-8">
