@@ -1,5 +1,13 @@
 ---
 import { PortableText } from 'astro-portabletext'
+import type { TermCardContent } from '@/types/entry-content'
+import { languages } from '@/i18n/config'
+
+interface Props {
+  content: TermCardContent
+  language: (typeof languages)[number]
+}
+
 const { content, language } = Astro.props
 import { FileText, BookOpen } from '@lucide/astro'
 ---
@@ -30,7 +38,7 @@ import { FileText, BookOpen } from '@lucide/astro'
               class="mt-1 flex flex-wrap gap-2"
               aria-label="Weitere Bezeichnungen"
             >
-              {content.terms.slice(1).map((term: any) => (
+              {content.terms.slice(1).map((term) => (
                 <li class="py-1 text-gray-800 text-xl">
                   {term.designation}
                 </li>
@@ -48,7 +56,7 @@ import { FileText, BookOpen } from '@lucide/astro'
           Definition
         </h4>
         <div class="text-gray-800 leading-relaxed">
-          <PortableText value={content?.definition} />
+          {content.definition && <PortableText value={content.definition} />}
         </div>
       </section>
 

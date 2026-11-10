@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig } from 'astro/config'
 import alpinejs from '@astrojs/alpinejs'
 import tailwindcss from '@tailwindcss/vite'
@@ -15,7 +14,7 @@ export default defineConfig({
     format: 'directory',
   },
   integrations: [
-    alpinejs({ entrypoint: '/src/ts/alpine' }),
+    alpinejs({ entrypoint: '/src/ts/alpine.ts' }),
     i18n({
       locales,
       defaultLocale,

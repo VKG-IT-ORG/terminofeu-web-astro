@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node src/ts/generate-terms-list.ts",
+    "prebuild": "tsx src/ts/generate-terms-list.ts",
     "build": "astro build",
     "preview": "astro preview",
+    "typecheck": "astro check",
     "astro": "astro",
     "latest": "pnpm update --interactive --latest"
   },
@@ -18,7 +19,6 @@
     "@sanity/client": "^8.11.0",
     "@sindresorhus/slugify": "^3.0.1",
     "@tailwindcss/vite": "^4.3.3",
-    "@types/alpinejs": "^3.17.0",
     "alpinejs": "^3.17.5",
     "astro": "^7.4.2",
     "astro-i18n-aut": "^0.8.1",
@@ -29,5 +29,14 @@
   },
   "engines": {
     "node": ">=22.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@portabletext/types": "^4.0.2",
+    "@sanity/types": "^6.22.0",
+    "@types/alpinejs": "^3.17.0",
+    "@types/alpinejs__persist": "^3.17.0",
+    "tsx": "^4.23.15",
+    "typescript": "6.0.3"
   }
 }

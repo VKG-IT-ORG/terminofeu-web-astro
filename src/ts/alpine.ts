@@ -1,7 +1,22 @@
 import Fuse from 'fuse.js'
+import type { FuseResult } from 'fuse.js'
 import persist from '@alpinejs/persist'
+import type Alpine from 'alpinejs'
 
 import list from '../terms-list.json'
+
+type SearchTerm = (typeof list)[number]
+
+interface SearchComponent {
+  searchResults: FuseResult<SearchTerm>[]
+  searchPattern: string
+  showBox: boolean
+  selectedIndex: number
+  init(): void
+  moveUpList(): void
+  moveDownList(): void
+  goToFiche(): void
+}
 
 const fuseOptions = {
   keys: ['term', 'lang'],
@@ -9,9 +24,9 @@ const fuseOptions = {
   threshold: 0.1,
 }
 
-const fuse = new Fuse(list, fuseOptions)
+const fuse = new Fuse<SearchTerm>(list, fuseOptions)
 
-export default (Alpine) => {
+export default (Alpine: Alpine.Alpine) => {
   Alpine.plugin(persist)
 
   Alpine.store('global', {
@@ -19,9 +34,9 @@ export default (Alpine) => {
     showWarnPopup: Alpine.$persist(true).as('work_in_progress_acknowledged'),
   })
 
-  Alpine.data('search', () => ({
+  Alpine.data<SearchComponent, []>('search', () => ({
     init() {
-      this.$watch('searchPattern', (value) => {
+      this.$watch('searchPattern', (value: string) => {
         if (!value) {
           this.searchResults = []
           return
@@ -31,14 +46,14 @@ export default (Alpine) => {
           {
             $and: [
               { term: value.trim() },
-              { $or: this.$store.global.langs.map((lang) => ({ lang })) },
+              { $or: this.$store.global.langs.map((lang: string) => ({ lang })) },
             ],
           },
           { limit: 7 },
         )
       })
     },
-    searchResults: [],
+    searchResults: new Array<FuseResult<SearchTerm>>(),
     searchPattern: '',
     showBox: false,
     selectedIndex: 0,

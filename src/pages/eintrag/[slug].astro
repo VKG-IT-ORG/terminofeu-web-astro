@@ -19,8 +19,16 @@ export function getStaticPaths() {
 const { props } = Astro
 
 const fiche = await getFiche(props.entry_id)
+if (!fiche) {
+  throw new Error(`Sanity entry not found: ${props.entry_id}`)
+}
 
-const vedette = fiche[`${locale}Title`] ?? 'Fiche'
+const titlesByLocale: Record<string, string | undefined> = {
+  de: fiche.deTitle,
+  fr: fiche.frTitle,
+  it: fiche.itTitle,
+}
+const vedette = titlesByLocale[locale] ?? 'Fiche'
 ---
 
 <Layout title={vedette}>
@@ -28,15 +36,13 @@ const vedette = fiche[`${locale}Title`] ?? 'Fiche'
 
   <div class="flex gap-6 flex-wrap justify-center mt-16 mb-24">
     {
-      languages.map(
-        (lang) =>
-          fiche.content[lang.code]?.terms?.[0] && (
-            <TermLanguageCard
-              content={fiche.content[lang.code]}
-              language={lang}
-            />
-          ),
-      )
+      languages.map((lang) => {
+        const content = fiche.content?.[lang.code]
+        const terms = content?.terms
+        return content && terms?.[0] ? (
+          <TermLanguageCard content={{ ...content, terms }} language={lang} />
+        ) : null
+      })
     }
   </div>
 </Layout>
