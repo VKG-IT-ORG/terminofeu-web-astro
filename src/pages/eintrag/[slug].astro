@@ -14,7 +14,13 @@ export async function getStaticPaths() {
   const fiches = await getFiches()
 
   return fiches.map((fiche) => {
-    const slug = fichesList.find((f) => f.entry_id === fiche._id).slug
+    const matchingFiche = fichesList.find((f) => f.entry_id === fiche._id)
+
+    if (!matchingFiche) {
+      throw new Error(`No slug found for Sanity entry: ${fiche._id}`)
+    }
+
+    const slug = matchingFiche.slug
     return { params: { slug }, props: { fiche } }
   })
 }
