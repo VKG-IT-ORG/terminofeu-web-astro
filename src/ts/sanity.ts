@@ -1,16 +1,23 @@
 import { createClient } from '@sanity/client'
 
-import groq from 'groq'
+import { defineQuery } from 'groq'
 
 const client = createClient({
   projectId: 'nipfx4rq',
   dataset: 'production',
   useCdn: true,
-  apiVersion: '2025-09-23',
+  apiVersion: '2026-11-10',
 })
 
+export async function getUsersGroups() {
+  const getUsersGroupsQuery = defineQuery(`
+  *[_type == "usersGroup"] | order(designation asc)`)
+  return client.fetch(getUsersGroupsQuery)
+}
+
 export async function getTerms() {
-  return client.fetch(groq`*[_type == "entry" && status in ["approved", "validated", "in_force"]] {
+  const getTermsQuery = defineQuery(`
+  *[_type == "entry" && status in ["approved", "validated", "in_force"]] {
       _id,
       "terms_de": content.de.terms[] {
                 _key,
@@ -30,12 +37,14 @@ export async function getTerms() {
                 abbreviation,
                 status,
         }
-    }
-    `)
+    }`)
+  return client.fetch(getTermsQuery)
 }
 
-export async function getFiche(entry_id) {
-  return client.fetch(groq`*[_type == "entry" && _id == $id][0]`, {
+export async function getFiche(entry_id: string) {
+  const getFicheQuery = defineQuery(`*[_type == 'entry' && _id == $id][0]`)
+
+  return client.fetch(getFicheQuery, {
     id: entry_id,
   })
 }

@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node src/js/generate-terms-list.mjs",
+    "prebuild": "node src/ts/generate-terms-list.ts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",

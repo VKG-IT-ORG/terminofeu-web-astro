@@ -3,7 +3,7 @@ import Layout from '@/layouts/Layout.astro'
 import Search from '@/components/Search.astro'
 import TermLanguageCard from '@/components/TermLanguageCard.astro'
 import fiches from '@/terms-list.json'
-import { getFiche } from '@/js/sanity'
+import { getFiche } from '@/ts/sanity'
 import { getLocale } from 'astro-i18n-aut'
 
 import { languages } from '@/i18n/config'
@@ -35,7 +35,7 @@ const vedette = fiche[`${locale}Title`] ?? 'Fiche'
               content={fiche.content[lang.code]}
               language={lang}
             />
-          )
+          ),
       )
     }
   </div>
