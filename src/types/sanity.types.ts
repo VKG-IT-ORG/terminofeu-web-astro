@@ -431,9 +431,9 @@ export type GetTermsQueryResult = Array<{
 }>;
 
 // Source: ../terminofeu-web-astro/src/ts/sanity.ts
-// Variable: getFicheQuery
-// Query: *[_type == 'entry' && _id == $id][0]
-export type GetFicheQueryResult = {
+// Variable: getFichesQuery
+// Query: *[_type == 'entry' && status in ["approved", "validated", "in_force"]]
+export type GetFichesQueryResult = Array<{
   _id: string;
   _type: "entry";
   _createdAt: string;
@@ -526,14 +526,14 @@ export type GetFicheQueryResult = {
       _key: string;
     } & Approval
   >;
-} | null;
+}>;
 
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "usersGroup"] | order(designation asc)': GetUsersGroupsQueryResult;
     '\n  *[_type == "entry" && status in ["approved", "validated", "in_force"]] {\n      _id,\n      "terms_de": content.de.terms[] {\n                _key,\n                designation,\n                abbreviation,\n                status,\n        },\n        "terms_fr": content.fr.terms[] {\n                _key,\n                designation,\n                abbreviation,\n                status,\n        },\n        "terms_it": content.it.terms[] {\n                _key,\n                designation,\n                abbreviation,\n                status,\n        }\n    }': GetTermsQueryResult;
-    "*[_type == 'entry' && _id == $id][0]": GetFicheQueryResult;
+    '\n  *[_type == \'entry\' && status in ["approved", "validated", "in_force"]]': GetFichesQueryResult;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

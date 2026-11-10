@@ -2,25 +2,27 @@
 import Layout from '@/layouts/Layout.astro'
 import Search from '@/components/Search.astro'
 import TermLanguageCard from '@/components/TermLanguageCard.astro'
-import fiches from '@/terms-list.json'
-import { getFiche } from '@/ts/sanity'
+import fichesList from '@/terms-list.json'
+import { getFiches } from '@/ts/sanity'
 import { getLocale } from 'astro-i18n-aut'
 
 import { languages } from '@/i18n/config'
 
 const locale = getLocale(Astro.url)
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const fiches = await getFiches()
+
   return fiches.map((fiche) => {
-    return { params: { slug: fiche.slug }, props: { entry_id: fiche.entry_id } }
+    const slug = fichesList.find((f) => f.entry_id === fiche._id).slug
+    return { params: { slug }, props: { fiche } }
   })
 }
 
-const { props } = Astro
+const { fiche } = Astro.props
 
-const fiche = await getFiche(props.entry_id)
 if (!fiche) {
-  throw new Error(`Sanity entry not found: ${props.entry_id}`)
+  throw new Error(`Sanity entry not found: ${Astro.params.slug}`)
 }
 
 const titlesByLocale: Record<string, string | undefined> = {

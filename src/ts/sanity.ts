@@ -41,10 +41,8 @@ export async function getTerms() {
   return client.fetch(getTermsQuery)
 }
 
-export async function getFiche(entry_id: string) {
-  const getFicheQuery = defineQuery(`*[_type == 'entry' && _id == $id][0]`)
-
-  return client.fetch(getFicheQuery, {
-    id: entry_id,
-  })
+export async function getFiches() {
+  const getFichesQuery = defineQuery(`
+  *[_type == 'entry' && status in ["approved", "validated", "in_force"]]`)
+  return client.fetch(getFichesQuery)
 }
