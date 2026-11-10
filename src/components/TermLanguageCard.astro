@@ -24,6 +24,20 @@ import { FileText, BookOpen } from '@lucide/astro'
         <p class="text-2xl text-gray-900 leading-tight">
           {content.terms[0].designation}
         </p>
+        {
+          content.terms.length > 1 && (
+            <ul
+              class="mt-1 flex flex-wrap gap-2"
+              aria-label="Weitere Bezeichnungen"
+            >
+              {content.terms.slice(1).map((term: any) => (
+                <li class="py-1 text-gray-800 text-xl">
+                  {term.designation}
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </section>
 
       <hr class="my-6 border-muted border" />
