@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node src/js/generate-terms-list.mjs",
+    "prebuild": "tsx src/ts/generate-terms-list.ts",
     "build": "astro build",
     "preview": "astro preview",
+    "typecheck": "astro check",
     "astro": "astro",
     "latest": "pnpm update --interactive --latest"
   },
@@ -14,20 +15,26 @@
     "@alpinejs/persist": "^3.17.5",
     "@astrojs/alpinejs": "^1.0.0",
     "@astrojs/sitemap": "^3.7.4",
-    "@lucide/astro": "^1.61.0",
-    "@sanity/client": "^8.11.0",
-    "@sindresorhus/slugify": "^3.0.1",
-    "@tailwindcss/vite": "^4.3.3",
-    "@types/alpinejs": "^3.17.0",
+    "@lucide/astro": "^1.70.0",
+    "@sanity/client": "^8.15.0",
+    "@sindresorhus/slugify": "^4.0.1",
+    "@tailwindcss/vite": "^4.3.5",
     "alpinejs": "^3.17.5",
-    "astro": "^7.4.2",
+    "astro": "^7.4.8",
     "astro-i18n-aut": "^0.8.1",
     "astro-portabletext": "^1.0.1",
     "fuse.js": "^7.5.0",
-    "groq": "^6.20.0",
-    "tailwindcss": "^4.3.3"
+    "groq": "^6.22.0",
+    "tailwindcss": "^4.3.5"
   },
-  "engines": {
-    "node": ">=22.0.0"
-  }
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@portabletext/types": "^4.0.2",
+    "@sanity/types": "^6.22.0",
+    "@types/alpinejs": "^3.17.0",
+    "@types/alpinejs__persist": "^3.17.0",
+    "tsx": "^4.23.15",
+    "typescript": "6.0.3"
+  },
+  "packageManager": "pnpm@12.18.0"
 }

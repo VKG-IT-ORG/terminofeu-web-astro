@@ -2,25 +2,41 @@
 import Layout from '@/layouts/Layout.astro'
 import Search from '@/components/Search.astro'
 import TermLanguageCard from '@/components/TermLanguageCard.astro'
-import fiches from '@/terms-list.json'
-import { getFiche } from '@/js/sanity'
+import fichesList from '@/terms-list.json'
+import { getFiches } from '@/ts/sanity'
 import { getLocale } from 'astro-i18n-aut'
 
 import { languages } from '@/i18n/config'
 
 const locale = getLocale(Astro.url)
 
-export function getStaticPaths() {
-  return fiches.map((fiche) => {
-    return { params: { slug: fiche.slug }, props: { entry_id: fiche.entry_id } }
+export async function getStaticPaths() {
+  const fiches = await getFiches()
+  const fichesById = new Map(fiches.map((fiche) => [fiche._id, fiche]))
+
+  return fichesList.map(({ slug, entry_id }) => {
+    const fiche = fichesById.get(entry_id)
+
+    if (!fiche) {
+      throw new Error(`No Sanity entry found for term "${slug}" (${entry_id})`)
+    }
+
+    return { params: { slug }, props: { fiche } }
   })
 }
 
-const { props } = Astro
+const { fiche } = Astro.props
 
-const fiche = await getFiche(props.entry_id)
+if (!fiche) {
+  throw new Error(`Sanity entry not found: ${Astro.params.slug}`)
+}
 
-const vedette = fiche[`${locale}Title`] ?? 'Fiche'
+const titlesByLocale: Record<string, string | undefined> = {
+  de: fiche.deTitle,
+  fr: fiche.frTitle,
+  it: fiche.itTitle,
+}
+const vedette = titlesByLocale[locale] ?? 'Fiche'
 ---
 
 <Layout title={vedette}>
@@ -28,15 +44,13 @@ const vedette = fiche[`${locale}Title`] ?? 'Fiche'
 
   <div class="flex gap-6 flex-wrap justify-center mt-16 mb-24">
     {
-      languages.map(
-        (lang) =>
-          fiche.content[lang.code]?.terms?.[0] && (
-            <TermLanguageCard
-              content={fiche.content[lang.code]}
-              language={lang}
-            />
-          )
-      )
+      languages.map((lang) => {
+        const content = fiche.content?.[lang.code]
+        const terms = content?.terms
+        return content && terms?.[0] ? (
+          <TermLanguageCard content={{ ...content, terms }} language={lang} />
+        ) : null
+      })
     }
   </div>
 </Layout>
