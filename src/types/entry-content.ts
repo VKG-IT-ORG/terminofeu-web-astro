@@ -1,6 +1,7 @@
-import type { Entry } from './sanity.types.js'
+import type { GetFichesQueryResult } from './sanity.types.js'
 
-export type EntryContent = NonNullable<NonNullable<Entry['content']>['de']>
+type EntryLanguages = NonNullable<GetFichesQueryResult[number]['content']>
+type EntryContent = NonNullable<EntryLanguages[keyof EntryLanguages]>
 
 export type TermCardContent = EntryContent & {
   terms: NonNullable<EntryContent['terms']>

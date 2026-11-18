@@ -432,7 +432,7 @@ export type GetTermsQueryResult = Array<{
 
 // Source: ../terminofeu-web-astro/src/ts/sanity.ts
 // Variable: getFichesQuery
-// Query: *[_type == 'entry' && status in ["approved", "validated", "in_force"]]
+// Query: *[_type == 'entry' && status in ["approved", "validated", "in_force"]] {    ...,    content {      ...,      de { ..., "definitionSource": definitionSource {        type,        "source": reference->{title, longTitle, date, url}      }},      fr { ..., "definitionSource": definitionSource {        type,        "source": reference->{title, longTitle, date, url}      }},      it { ..., "definitionSource": definitionSource {        type,        "source": reference->{title, longTitle, date, url}      }}    }  }
 export type GetFichesQueryResult = Array<{
   _id: string;
   _type: "entry";
@@ -458,15 +458,23 @@ export type GetFichesQueryResult = Array<{
   deTitle?: string;
   frTitle?: string;
   itTitle?: string;
-  content?: {
-    de?: {
+  content: {
+    de: {
       terms?: Array<
         {
           _key: string;
         } & Term
       >;
       definition?: BlockContent;
-      definitionSource?: SourceReference_2;
+      definitionSource: {
+        type: "after" | "original" | null;
+        source: {
+          title: string;
+          longTitle: string | null;
+          date: string;
+          url: string | null;
+        } | null;
+      } | null;
       note?: NoteRedactor;
       notesSource?: SourceReference_2;
       examples?: NoteRedactor;
@@ -475,15 +483,23 @@ export type GetFichesQueryResult = Array<{
           _key: string;
         } & Definition
       >;
-    };
-    fr?: {
+    } | null;
+    fr: {
       terms?: Array<
         {
           _key: string;
         } & Term
       >;
       definition?: BlockContent;
-      definitionSource?: SourceReference_2;
+      definitionSource: {
+        type: "after" | "original" | null;
+        source: {
+          title: string;
+          longTitle: string | null;
+          date: string;
+          url: string | null;
+        } | null;
+      } | null;
       note?: NoteRedactor;
       notesSource?: SourceReference_2;
       examples?: NoteRedactor;
@@ -492,15 +508,23 @@ export type GetFichesQueryResult = Array<{
           _key: string;
         } & Definition
       >;
-    };
-    it?: {
+    } | null;
+    it: {
       terms?: Array<
         {
           _key: string;
         } & Term
       >;
       definition?: BlockContent;
-      definitionSource?: SourceReference_2;
+      definitionSource: {
+        type: "after" | "original" | null;
+        source: {
+          title: string;
+          longTitle: string | null;
+          date: string;
+          url: string | null;
+        } | null;
+      } | null;
       note?: NoteRedactor;
       notesSource?: SourceReference_2;
       examples?: NoteRedactor;
@@ -509,8 +533,8 @@ export type GetFichesQueryResult = Array<{
           _key: string;
         } & Definition
       >;
-    };
-  };
+    } | null;
+  } | null;
   notes?: Array<
     {
       _key: string;
@@ -533,7 +557,7 @@ declare global {
   interface SanityQueries {
     '\n  *[_type == "usersGroup"] | order(designation asc)': GetUsersGroupsQueryResult;
     '\n  *[_type == "entry" && status in ["approved", "validated", "in_force"]] {\n      _id,\n      "terms_de": content.de.terms[] {\n                _key,\n                designation,\n                abbreviation,\n                status,\n        },\n        "terms_fr": content.fr.terms[] {\n                _key,\n                designation,\n                abbreviation,\n                status,\n        },\n        "terms_it": content.it.terms[] {\n                _key,\n                designation,\n                abbreviation,\n                status,\n        }\n    }': GetTermsQueryResult;
-    '\n  *[_type == \'entry\' && status in ["approved", "validated", "in_force"]]': GetFichesQueryResult;
+    '\n  *[_type == \'entry\' && status in ["approved", "validated", "in_force"]] {\n    ...,\n    content {\n      ...,\n      de { ..., "definitionSource": definitionSource {\n        type,\n        "source": reference->{title, longTitle, date, url}\n      }},\n      fr { ..., "definitionSource": definitionSource {\n        type,\n        "source": reference->{title, longTitle, date, url}\n      }},\n      it { ..., "definitionSource": definitionSource {\n        type,\n        "source": reference->{title, longTitle, date, url}\n      }}\n    }\n  }': GetFichesQueryResult;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
