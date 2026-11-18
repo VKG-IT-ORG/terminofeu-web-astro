@@ -12,6 +12,7 @@ interface SearchComponent {
   searchPattern: string
   showBox: boolean
   selectedIndex: number
+  entryUrlPrefix: string
   init(): void
   moveUpList(): void
   moveDownList(): void
@@ -34,7 +35,7 @@ export default (Alpine: Alpine.Alpine) => {
     showWarnPopup: Alpine.$persist(true).as('work_in_progress_acknowledged'),
   })
 
-  Alpine.data<SearchComponent, []>('search', () => ({
+  Alpine.data<SearchComponent, [string]>('search', (entryUrlPrefix: string) => ({
     init() {
       this.$watch('searchPattern', (value: string) => {
         if (!value) {
@@ -57,6 +58,7 @@ export default (Alpine: Alpine.Alpine) => {
     searchPattern: '',
     showBox: false,
     selectedIndex: 0,
+    entryUrlPrefix,
     moveUpList() {
       this.selectedIndex > 0
         ? this.selectedIndex--
@@ -69,9 +71,10 @@ export default (Alpine: Alpine.Alpine) => {
     },
     goToFiche() {
       if (this.searchResults.length) {
-        window.location.href = `/eintrag/${
-          this.searchResults[this.selectedIndex].item.slug
-        }/`
+        window.location.href =
+          this.entryUrlPrefix +
+          this.searchResults[this.selectedIndex].item.slug +
+          '/'
       }
     },
   }))

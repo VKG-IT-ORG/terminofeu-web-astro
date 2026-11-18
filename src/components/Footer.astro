@@ -19,7 +19,7 @@ const t = useTranslations(locale)
           <h3 class="mb-4 text-gray-900">{t('footer.links')}</h3>
           <ul class="space-y-2 text-sm text-gray-600">
             <li>
-              <a href="/begriffsliste/" class="hover:text-gray-900"
+              <a href={getLocaleUrl('/begriffsliste/', locale)} class="hover:text-gray-900"
                 >{t('footer.termList')}</a
               >
             </li>

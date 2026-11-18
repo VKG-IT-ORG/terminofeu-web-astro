@@ -1,7 +1,10 @@
 ---
+import { getLocale, getLocaleUrl } from 'astro-i18n-aut'
+import { useTranslations } from '@/i18n/config'
 
+const locale = getLocale(Astro.url) as LangKeys
+const t = useTranslations(locale)
 ---
-
 <header class="w-full px-6 py-4">
   <div class="flex items-center justify-between max-w-7xl mx-auto">
     <div
@@ -14,19 +17,19 @@
       </div>
       <div>
         <h1 class="text-xl text-gray-900">Terminofeu</h1>
-        <p class="text-sm text-gray-600">Terminologie der BSV 2026</p>
+        <p class="text-sm text-gray-600">{t('header.subtitle')}</p>
       </div>
     </div>
 
     <nav class="hidden md:flex items-center gap-6">
-      <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-        Liste aller Begriffe
+      <a href={getLocaleUrl('/begriffsliste/', locale)} class="text-gray-600 hover:text-gray-900 transition-colors">
+        {t('header.termList')}
       </a>
-      <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-        Begriffe durchsuchen
+      <a href={getLocaleUrl('/', locale)} class="text-gray-600 hover:text-gray-900 transition-colors">
+        {t('header.search')}
       </a>
-      <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-        Über Terminofeu
+      <a href={getLocaleUrl('/', locale)} class="text-gray-600 hover:text-gray-900 transition-colors">
+        {t('header.about')}
       </a>
     </nav>
   </div>

@@ -1,9 +1,14 @@
 ---
 import { languages } from '@/i18n/config'
 import { Check } from '@lucide/astro'
+import { getLocale } from 'astro-i18n-aut'
+import { useTranslations } from '@/i18n/config'
+
+const locale = getLocale(Astro.url) as LangKeys
+const t = useTranslations(locale)
 ---
 
-<span class="block text-center text-sm text-muted">Suche in Sprachen:</span>
+<span class="block text-center text-sm text-muted">{t('search.languages')}</span>
 <div
   class="flex gap-4 justify-center mt-3 flex-wrap"
   x-data={`{ langs: ${JSON.stringify(languages)} }`}

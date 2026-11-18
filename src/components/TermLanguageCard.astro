@@ -1,7 +1,7 @@
 ---
 import { PortableText } from 'astro-portabletext'
 import type { TermCardContent } from '@/types/entry-content'
-import { languages } from '@/i18n/config'
+import { languages, useTranslations } from '@/i18n/config'
 
 interface Props {
   content: TermCardContent
@@ -9,13 +9,23 @@ interface Props {
 }
 
 const { content, language } = Astro.props
+const t = useTranslations(language.code)
 import { FileText, BookOpen } from '@lucide/astro'
 
 const source = content.definitionSource?.source
 const sourceTypeLabels = {
-  de: { original: 'Wörtlich zitiert', after: 'Bearbeitet nach' },
-  fr: { original: 'Citation exacte', after: 'Adapté de' },
-  it: { original: 'Citazione esatta', after: 'Modificato da' },
+  de: {
+    original: t('card.sourceOriginal'),
+    after: t('card.sourceAfter'),
+  },
+  fr: {
+    original: t('card.sourceOriginal'),
+    after: t('card.sourceAfter'),
+  },
+  it: {
+    original: t('card.sourceOriginal'),
+    after: t('card.sourceAfter'),
+  },
 }
 const sourceType = content.definitionSource?.type
 const sourceTypeLabel = sourceType
@@ -44,7 +54,7 @@ const formattedSourceDate = source
       <!-- Designation -->
       <section>
         <h4 class="text-xs text-gray-500 uppercase tracking-wide mb-3">
-          Begriff
+          {t('card.designation')}
         </h4>
         <p class="text-2xl text-gray-900 leading-tight">
           {content.terms[0].designation}
@@ -53,7 +63,7 @@ const formattedSourceDate = source
           content.terms.length > 1 && (
             <ul
               class="mt-1 flex flex-wrap gap-2"
-              aria-label="Weitere Bezeichnungen"
+              aria-label={t('card.additionalDesignations')}
             >
               {content.terms.slice(1).map((term) => (
                 <li class="py-1 text-gray-800 text-xl">
@@ -70,7 +80,7 @@ const formattedSourceDate = source
       <!-- Definition -->
       <section class="py-5">
         <h4 class="text-xs text-gray-500 uppercase tracking-wide mb-3">
-          Definition
+          {t('card.definition')}
         </h4>
         <div class="text-gray-800 leading-relaxed">
           {content.definition && <PortableText value={content.definition} />}
@@ -123,7 +133,7 @@ const formattedSourceDate = source
               <div class="flex items-center gap-2 mb-3">
                 <FileText class="h-4 w-4 text-gray-600" />
                 <h4 class="text-xs text-gray-500 uppercase tracking-wide">
-                  Anmerkungen
+                  {t('card.notes')}
                 </h4>
               </div>
               <div class="text-gray-800 leading-relaxed portabletext">
@@ -141,7 +151,7 @@ const formattedSourceDate = source
               <div class="flex items-center gap-2 mb-3">
                 <BookOpen class="h-4 w-4 text-gray-600" />
                 <h4 class="text-xs text-gray-500 uppercase tracking-wide">
-                  Beispiele
+                  {t('card.examples')}
                 </h4>
               </div>
               <div class="text-gray-800 leading-relaxed portabletext">
