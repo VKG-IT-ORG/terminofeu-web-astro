@@ -41,9 +41,12 @@ const vedette = titlesByLocale[locale] ?? t('search.entryFallback')
 ---
 
 <Layout title={vedette}>
-  <Search />
 
-  <div class="flex gap-6 flex-wrap justify-center mt-16 mb-24">
+  <section class="mt-8">
+  <Search />
+  </section>
+
+  <section class="flex gap-6 flex-wrap justify-center mt-16 mb-24">
     {
       languages.map((lang) => {
         const content = fiche.content?.[lang.code]
@@ -53,5 +56,5 @@ const vedette = titlesByLocale[locale] ?? t('search.entryFallback')
         ) : null
       })
     }
-  </div>
+  </section>
 </Layout>
