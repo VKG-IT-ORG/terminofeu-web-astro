@@ -39,132 +39,140 @@ const formattedSourceDate = source
   : undefined
 ---
 
-<article x-data={`{ code: '${language.code}' }`}>
-  <div :class="!$store.global.langs.includes(code) && 'hidden'">
-    <div
-      class="flex flex-col gap-6 rounded-xl border-muted border h-full max-w-xl bg-white p-6"
-    >
-      <header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-xl text-gray-900 capitalize">{language.name}</h3>
-          <div set:html={language.flag} class="w-5 h-4" />
-        </div>
-      </header>
-
-      <!-- Designation -->
-      <section>
-        <h4 class="text-xs text-gray-500 uppercase tracking-wide mb-3">
-          {t('card.designation')}
-        </h4>
-        <p class="text-2xl text-gray-900 leading-tight">
-          {content.terms[0].designation}
-        </p>
-        {
-          content.terms.length > 1 && (
-            <ul
-              class="mt-1 flex flex-wrap gap-2"
-              aria-label={t('card.additionalDesignations')}
-            >
-              {content.terms.slice(1).map((term) => (
-                <li class="py-1 text-gray-800 text-xl">
-                  {term.designation}
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </section>
-
-      <hr class="my-6 border-muted border" />
-
-      <!-- Definition -->
-      <section class="py-5">
-        <h4 class="text-xs text-gray-500 uppercase tracking-wide mb-3">
-          {t('card.definition')}
-        </h4>
-        <div class="text-gray-800 leading-relaxed">
-          {content.definition && <PortableText value={content.definition} />}
-        </div>
-        {
-          source && (
-            <div class="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
-              {sourceTypeLabel && (
-                <span class="text-gray-500">{sourceTypeLabel}:</span>
-              )}
-              <button
-                type="button"
-                popovertarget={`definition-source-${language.code}`}
-                style={`anchor-name: --definition-source-${language.code}`}
-                class="text-primary underline decoration-dotted underline-offset-2 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {source.title}
-              </button>
-              <div
-                id={`definition-source-${language.code}`}
-                popover="auto"
-                style={`position-anchor: --definition-source-${language.code}`}
-                class="definition-source-popover max-w-sm rounded-lg border border-gray-200 bg-white p-4 text-left text-sm text-gray-800 shadow-xl"
-              >
-                {source.longTitle && (
-                  <p class="font-medium">{source.longTitle}</p>
-                )}
-                <p class="mt-2">{formattedSourceDate}</p>
-                {source.url && (
-                  <a
-                    class="mt-2 block break-all text-primary underline hover:text-accent"
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {source.url}
-                  </a>
-                )}
-              </div>
-            </div>
-          )
-        }
-      </section>
-
-      <!-- Notes -->
-      {
-        content.note && (
-            <hr class="my-6" />
-            <div class="py-5">
-              <div class="flex items-center gap-2 mb-3">
-                <FileText class="h-4 w-4 text-gray-600" />
-                <h4 class="text-xs text-gray-500 uppercase tracking-wide">
-                  {t('card.notes')}
-                </h4>
-              </div>
-              <div class="text-gray-800 leading-relaxed portabletext">
-                <PortableText value={content.note} />
-              </div>
-            </div>
-        )
-      }
-
-      <!-- Examples -->
-      {
-        content.examples && (
-            <hr class="my-6" />
-            <div class="py-5">
-              <div class="flex items-center gap-2 mb-3">
-                <BookOpen class="h-4 w-4 text-gray-600" />
-                <h4 class="text-xs text-gray-500 uppercase tracking-wide">
-                  {t('card.examples')}
-                </h4>
-              </div>
-              <div class="text-gray-800 leading-relaxed portabletext">
-                <PortableText value={content.examples} />
-              </div>
-            </div>
-        )
-      }
+<article
+  x-data={`{ code: '${language.code}' }`}
+  x-show="$store.global.langs.includes(code)"
+  class="term-language-card max-w-xl rounded-xl border border-muted bg-white p-6"
+>
+  <header>
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl text-gray-900 capitalize">{language.name}</h3>
+      <div set:html={language.flag} class="w-5 h-4" />
     </div>
-  </div>
+  </header>
+
+  <!-- Designation -->
+  <section class="term-card-section">
+    <h4 class="text-xs text-gray-500 uppercase tracking-wide mb-3">
+      {t('card.designation')}
+    </h4>
+    <p class="text-2xl text-gray-900 leading-tight">
+      {content.terms[0].designation}
+    </p>
+    {
+      content.terms.length > 1 && (
+        <ul
+          class="mt-1 flex flex-wrap gap-2"
+          aria-label={t('card.additionalDesignations')}
+        >
+          {content.terms.slice(1).map((term) => (
+            <li class="py-1 text-gray-800 text-xl">{term.designation}</li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <!-- Definition -->
+  <section class="term-card-section">
+    <h4 class="text-xs text-gray-500 uppercase tracking-wide mb-3">
+      {t('card.definition')}
+    </h4>
+    <div class="text-gray-800 leading-relaxed">
+      {content.definition && <PortableText value={content.definition} />}
+    </div>
+    {
+      source && (
+        <div class="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+          {sourceTypeLabel && (
+            <span class="text-gray-500">{sourceTypeLabel}:</span>
+          )}
+          <button
+            type="button"
+            popovertarget={`definition-source-${language.code}`}
+            style={`anchor-name: --definition-source-${language.code}`}
+            class="text-primary underline decoration-dotted underline-offset-2 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            {source.title}
+          </button>
+          <div
+            id={`definition-source-${language.code}`}
+            popover="auto"
+            style={`position-anchor: --definition-source-${language.code}`}
+            class="definition-source-popover max-w-sm rounded-lg border border-gray-200 bg-white p-4 text-left text-sm text-gray-800 shadow-xl"
+          >
+            {source.longTitle && <p class="font-medium">{source.longTitle}</p>}
+            <p class="mt-2">{formattedSourceDate}</p>
+            {source.url && (
+              <a
+                class="mt-2 block break-all text-primary underline hover:text-accent"
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {source.url}
+              </a>
+            )}
+          </div>
+        </div>
+      )
+    }
+  </section>
+
+  <!-- Notes -->
+  <section class="term-card-section">
+    {
+      content.note && (
+        <>
+          <div class="flex items-center gap-2 mb-3">
+            <FileText class="h-4 w-4 text-gray-600" />
+            <h4 class="text-xs text-gray-500 uppercase tracking-wide">
+              {t('card.notes')}
+            </h4>
+          </div>
+          <div class="text-gray-800 leading-relaxed portabletext">
+            <PortableText value={content.note} />
+          </div>
+        </>
+      )
+    }
+  </section>
+
+  <!-- Examples -->
+  <section class="term-card-section">
+    {
+      content.examples && (
+        <>
+          <div class="flex items-center gap-2 mb-3">
+            <BookOpen class="h-4 w-4 text-gray-600" />
+            <h4 class="text-xs text-gray-500 uppercase tracking-wide">
+              {t('card.examples')}
+            </h4>
+          </div>
+          <div class="text-gray-800 leading-relaxed portabletext">
+            <PortableText value={content.examples} />
+          </div>
+        </>
+      )
+    }
+  </section>
 </article>
 
 <style>
+  .term-language-card {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+  }
+
+  .term-card-section {
+    padding-block: 1.25rem;
+  }
+
+  .term-card-section + .term-card-section {
+    border-top: 1px solid var(--color-muted);
+  }
+
   .definition-source-popover {
     position: fixed;
     inset: 0;
