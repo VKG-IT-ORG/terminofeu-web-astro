@@ -1,7 +1,10 @@
 ---
-import { languages } from '@/i18n/config'
-import { getLocaleUrl } from 'astro-i18n-aut'
+import { languages, useTranslations } from '@/i18n/config'
+import { getLocaleUrl, getLocale } from 'astro-i18n-aut'
 const currentPath = Astro.url.pathname
+
+const locale = getLocale(Astro.url) as LangKeys
+const t = useTranslations(locale) 
 ---
 
 <footer class="bg-white border-t border-gray-200">
@@ -31,7 +34,7 @@ const currentPath = Astro.url.pathname
                 href="https://www.bsvonline.ch/de/brandschutzvorschriften/projekt-bsv-2026"
                 target="_blank"
                 class="hover:text-gray-900"
-                >Schweizerische Brandschutzvorschriften</a
+                >{ t('footer.bsv') }</a
               >
             </li>
             <li>

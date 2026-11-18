@@ -19,5 +19,24 @@ export const languages = [
 export const defaultLocale = 'de'
 
 export const locales = Object.fromEntries(
-  languages.map(({ code }) => [code, `${code}-CH`])
+  languages.map(({ code }) => [code, `${code}-CH`]),
 )
+
+const ui = {
+  de: {
+    'footer.bsv': 'Schweizerische Brandschutzvorschriften',
+  },
+  fr: {
+    'footer.bsv': 'Prescriptions suisses de protection incendie',
+  },
+  it: {
+    'footer.bsv': 'Prescrizioni svizzere della procezione antincendio',
+  },
+} as const
+
+export function useTranslations(lang: keyof typeof ui | undefined) {
+  if (!lang) lang = defaultLocale
+  return function t(key: keyof (typeof ui)[typeof defaultLocale]) {
+    return ui[lang][key] || ui[defaultLocale][key]
+  }
+}
