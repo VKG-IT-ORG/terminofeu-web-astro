@@ -24,13 +24,37 @@ export const locales = Object.fromEntries(
 
 const ui = {
   de: {
+    'footer.about': 'Über Terminofeu',
+    'footer.description':
+      'Terminofeu enthält die Begriffe, die in Anhang 2 der Schweizerischen Brandschutzvorschriften definiert sind, in deutscher, französischer und italienischer Sprache. Darüber hinaus umfasst die Terminologiedatenbank weitere Fachbegriffe aus dem Bereich Brandschutz.',
     'footer.bsv': 'Schweizerische Brandschutzvorschriften',
+    'footer.links': 'Links',
+    'footer.termList': 'Begriffsliste',
+    'footer.vkf': 'Vereinigung Kantonaler Feuerversicherungen (VKF)',
+    'footer.languages': 'Sprachen',
+    'footer.copyright': '© 2026 Vereinigung Kantonaler Feuerversicherungen (VKF)',
   },
   fr: {
+    'footer.about': 'À propos de Terminofeu',
+    'footer.description':
+      'Terminofeu contient les termes définis à l’annexe 2 des prescriptions suisses de protection incendie en allemand, français et italien. Elle comprend en outre d’autres termes techniques du domaine de la protection incendie.',
     'footer.bsv': 'Prescriptions suisses de protection incendie',
+    'footer.links': 'Liens',
+    'footer.termList': 'Liste des termes',
+    'footer.vkf': 'Association des établissements cantonaux d’assurance incendie (AEAI)',
+    'footer.languages': 'Langues',
+    'footer.copyright': '© 2026 Association des établissements cantonaux d’assurance incendie (AEAI)',
   },
   it: {
-    'footer.bsv': 'Prescrizioni svizzere della procezione antincendio',
+    'footer.about': 'Informazioni su Terminofeu',
+    'footer.description':
+      'Terminofeu contiene i termini definiti nell’allegato 2 delle prescrizioni svizzere di protezione antincendio in lingua tedesca, francese e italiana. Inoltre, la banca dati terminologica comprende altri termini specialistici del settore della protezione antincendio.',
+    'footer.bsv': 'Prescrizioni svizzere di protezione antincendio',
+    'footer.links': 'Collegamenti',
+    'footer.termList': 'Elenco dei termini',
+    'footer.vkf': 'Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
+    'footer.languages': 'Lingue',
+    'footer.copyright': '© 2026 Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
   },
 } as const
 
