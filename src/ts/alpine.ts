@@ -4,18 +4,8 @@ import persist from '@alpinejs/persist'
 import type Alpine from 'alpinejs'
 
 import list from '../terms-list.json'
-import { languages } from '../i18n/config'
 
-type SearchTerm = (typeof list)[number] & { flag: string }
-
-const searchTerms = list.map((term): SearchTerm => {
-  const language = languages.find(({ code }) => code === term.lang)
-  if (!language) {
-    throw new Error(`Missing language configuration for "${term.lang}"`)
-  }
-
-  return { ...term, flag: language.flag }
-})
+type SearchTerm = (typeof list)[number]
 
 interface SearchComponent {
   searchResults: FuseResult<SearchTerm>[]
@@ -35,7 +25,7 @@ const fuseOptions = {
   threshold: 0.1,
 }
 
-const fuse = new Fuse<SearchTerm>(searchTerms, fuseOptions)
+const fuse = new Fuse<SearchTerm>(list, fuseOptions)
 
 export default (Alpine: Alpine.Alpine) => {
   Alpine.plugin(persist)

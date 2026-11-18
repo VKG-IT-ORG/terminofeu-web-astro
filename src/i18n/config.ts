@@ -2,17 +2,17 @@ export const languages = [
   {
     name: 'Deutsch',
     code: 'de',
-    flag: '<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-de" viewBox="0 0 640 480"><script xmlns=""/> <path fill="#fc0" d="M0 320h640v160H0z"/> <path fill="#000001" d="M0 0h640v160H0z"/><path fill="red" d="M0 160h640v160H0z"/></svg>',
+    flag: '<svg viewBox="0 0 640 480"><path fill="#000001" d="M0 0h640v160H0z"/><path fill="red" d="M0 160h640v160H0z"/><path fill="#fc0" d="M0 320h640v160H0z"/></svg>',
   },
   {
     name: 'français',
     code: 'fr',
-    flag: '<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-fr" viewBox="0 0 640 480"><script xmlns=""/><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#000091" d="M0 0h213.3v480H0z"/><path fill="#e1000f" d="M426.7 0H640v480H426.7z"/></svg>',
+    flag: '<svg viewBox="0 0 640 480"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#000091" d="M0 0h213.3v480H0z"/><path fill="#e1000f" d="M426.7 0H640v480H426.7z"/></svg>',
   },
   {
     name: 'italiano',
     code: 'it',
-    flag: '<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-it" viewBox="0 0 640 480"><script xmlns=""/><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#009246" d="M0 0h213.3v480H0z"/><path fill="#ce2b37" d="M426.7 0H640v480H426.7z"/></g></svg>',
+    flag: '<svg viewBox="0 0 640 480"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#009246" d="M0 0h213.3v480H0z"/><path fill="#ce2b37" d="M426.7 0H640v480H426.7z"/></svg>',
   },
 ] as const
 
@@ -41,9 +41,11 @@ const ui = {
     'footer.termList': 'Begriffsliste',
     'footer.vkf': 'Vereinigung Kantonaler Feuerversicherungen (VKF)',
     'footer.languages': 'Sprachen',
-    'footer.copyright': '© 2026 Vereinigung Kantonaler Feuerversicherungen (VKF)',
+    'footer.copyright':
+      '© 2026 Vereinigung Kantonaler Feuerversicherungen (VKF)',
     'warn.title': 'Hinweis',
-    'warn.message': 'Die Inhalte dieser Website befinden sich noch in Bearbeitung.',
+    'warn.message':
+      'Die Inhalte dieser Website befinden sich noch in Bearbeitung.',
     'warn.button': 'Verstanden',
     'termList.title': 'Begriffsliste',
     'termList.back': 'Zurück zur Suche',
@@ -74,9 +76,11 @@ const ui = {
     'footer.bsv': 'Prescriptions suisses de protection incendie',
     'footer.links': 'Liens',
     'footer.termList': 'Liste des termes',
-    'footer.vkf': 'Association des établissements cantonaux d’assurance incendie (AEAI)',
+    'footer.vkf':
+      'Association des établissements cantonaux d’assurance incendie (AEAI)',
     'footer.languages': 'Langues',
-    'footer.copyright': '© 2026 Association des établissements cantonaux d’assurance incendie (AEAI)',
+    'footer.copyright':
+      '© 2026 Association des établissements cantonaux d’assurance incendie (AEAI)',
     'warn.title': 'Attention',
     'warn.message': 'Le contenu de ce site est encore en cours d’élaboration.',
     'warn.button': 'J’ai compris',
@@ -109,11 +113,14 @@ const ui = {
     'footer.bsv': 'Prescrizioni svizzere di protezione antincendio',
     'footer.links': 'Collegamenti',
     'footer.termList': 'Elenco dei termini',
-    'footer.vkf': 'Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
+    'footer.vkf':
+      'Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
     'footer.languages': 'Lingue',
-    'footer.copyright': '© 2026 Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
+    'footer.copyright':
+      '© 2026 Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
     'warn.title': 'Attenzione',
-    'warn.message': 'I contenuti di questo sito sono ancora in fase di elaborazione.',
+    'warn.message':
+      'I contenuti di questo sito sono ancora in fase di elaborazione.',
     'warn.button': 'Ho capito',
     'termList.title': 'Elenco dei termini',
     'termList.back': 'Torna alla ricerca',
