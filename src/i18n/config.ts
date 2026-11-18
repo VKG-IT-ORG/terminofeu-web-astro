@@ -2,22 +2,144 @@ export const languages = [
   {
     name: 'Deutsch',
     code: 'de',
-    flag: '<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-de" viewBox="0 0 640 480"><script xmlns=""/> <path fill="#fc0" d="M0 320h640v160H0z"/> <path fill="#000001" d="M0 0h640v160H0z"/><path fill="red" d="M0 160h640v160H0z"/></svg>',
+    flag: '<svg viewBox="0 0 640 480"><path fill="#000001" d="M0 0h640v160H0z"/><path fill="red" d="M0 160h640v160H0z"/><path fill="#fc0" d="M0 320h640v160H0z"/></svg>',
   },
   {
     name: 'français',
     code: 'fr',
-    flag: '<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-fr" viewBox="0 0 640 480"><script xmlns=""/><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#000091" d="M0 0h213.3v480H0z"/><path fill="#e1000f" d="M426.7 0H640v480H426.7z"/></svg>',
+    flag: '<svg viewBox="0 0 640 480"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#000091" d="M0 0h213.3v480H0z"/><path fill="#e1000f" d="M426.7 0H640v480H426.7z"/></svg>',
   },
   {
     name: 'italiano',
     code: 'it',
-    flag: '<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-it" viewBox="0 0 640 480"><script xmlns=""/><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#009246" d="M0 0h213.3v480H0z"/><path fill="#ce2b37" d="M426.7 0H640v480H426.7z"/></g></svg>',
+    flag: '<svg viewBox="0 0 640 480"><path fill="#fff" d="M0 0h640v480H0z"/><path fill="#009246" d="M0 0h213.3v480H0z"/><path fill="#ce2b37" d="M426.7 0H640v480H426.7z"/></svg>',
   },
 ] as const
 
 export const defaultLocale = 'de'
 
 export const locales = Object.fromEntries(
-  languages.map(({ code }) => [code, `${code}-CH`])
+  languages.map(({ code }) => [code, `${code}-CH`]),
 )
+
+const ui = {
+  de: {
+    'header.subtitle': 'Terminologie der BSV 2026',
+    'header.termList': 'Liste aller Begriffe',
+    'header.search': 'Begriffe durchsuchen',
+    'header.about': 'Über Terminofeu',
+    'search.title': 'Suche',
+    'search.placeholder': 'Brandschutzbegriffe suchen...',
+    'search.noResults': 'Keine Ergebnisse für',
+    'search.languages': 'Suche in Sprachen:',
+    'search.entryFallback': 'Eintrag',
+    'footer.about': 'Über Terminofeu',
+    'footer.description':
+      'Terminofeu enthält die Begriffe, die in Anhang 2 der Schweizerischen Brandschutzvorschriften definiert sind, in deutscher, französischer und italienischer Sprache. Darüber hinaus umfasst die Terminologiedatenbank weitere Fachbegriffe aus dem Bereich Brandschutz.',
+    'footer.bsv': 'Schweizerische Brandschutzvorschriften',
+    'footer.links': 'Links',
+    'footer.termList': 'Begriffsliste',
+    'footer.vkf': 'Vereinigung Kantonaler Feuerversicherungen (VKF)',
+    'footer.languages': 'Sprachen',
+    'footer.copyright':
+      '© 2026 Vereinigung Kantonaler Feuerversicherungen (VKF)',
+    'warn.title': 'Hinweis',
+    'warn.message':
+      'Die Inhalte dieser Website befinden sich noch in Bearbeitung.',
+    'warn.button': 'Verstanden',
+    'termList.title': 'Begriffsliste',
+    'termList.back': 'Zurück zur Suche',
+    'termList.specialistTerms': 'Fachbegriffe',
+    'termList.jumpTo': 'Nach Anfangsbuchstaben springen',
+    'termList.directTo': 'Direkt zu',
+    'card.designation': 'Begriff',
+    'card.additionalDesignations': 'Weitere Bezeichnungen',
+    'card.definition': 'Definition',
+    'card.notes': 'Anmerkungen',
+    'card.examples': 'Beispiele',
+    'card.sourceOriginal': 'Wörtlich zitiert',
+    'card.sourceAfter': 'Bearbeitet nach',
+  },
+  fr: {
+    'header.subtitle': 'Terminologie de la BSV 2026',
+    'header.termList': 'Liste de tous les termes',
+    'header.search': 'Rechercher des termes',
+    'header.about': 'À propos de Terminofeu',
+    'search.title': 'Recherche',
+    'search.placeholder': 'Rechercher des termes de protection incendie...',
+    'search.noResults': 'Aucun résultat pour',
+    'search.languages': 'Rechercher dans les langues :',
+    'search.entryFallback': 'Fiche',
+    'footer.about': 'À propos de Terminofeu',
+    'footer.description':
+      'Terminofeu contient les termes définis à l’annexe 2 des prescriptions suisses de protection incendie en allemand, français et italien. Elle comprend en outre d’autres termes techniques du domaine de la protection incendie.',
+    'footer.bsv': 'Prescriptions suisses de protection incendie',
+    'footer.links': 'Liens',
+    'footer.termList': 'Liste des termes',
+    'footer.vkf':
+      'Association des établissements cantonaux d’assurance incendie (AEAI)',
+    'footer.languages': 'Langues',
+    'footer.copyright':
+      '© 2026 Association des établissements cantonaux d’assurance incendie (AEAI)',
+    'warn.title': 'Attention',
+    'warn.message': 'Le contenu de ce site est encore en cours d’élaboration.',
+    'warn.button': 'J’ai compris',
+    'termList.title': 'Liste des termes',
+    'termList.back': 'Retour à la recherche',
+    'termList.specialistTerms': 'Termes techniques',
+    'termList.jumpTo': 'Accéder à une lettre',
+    'termList.directTo': 'Accès direct',
+    'card.designation': 'Terme',
+    'card.additionalDesignations': 'Autres désignations',
+    'card.definition': 'Définition',
+    'card.notes': 'Remarques',
+    'card.examples': 'Exemples',
+    'card.sourceOriginal': 'Citation exacte',
+    'card.sourceAfter': 'Adapté de',
+  },
+  it: {
+    'header.subtitle': 'Terminologia della BSV 2026',
+    'header.termList': 'Elenco di tutti i termini',
+    'header.search': 'Cerca termini',
+    'header.about': 'Informazioni su Terminofeu',
+    'search.title': 'Ricerca',
+    'search.placeholder': 'Cerca termini di protezione antincendio...',
+    'search.noResults': 'Nessun risultato per',
+    'search.languages': 'Cerca nelle lingue:',
+    'search.entryFallback': 'Scheda',
+    'footer.about': 'Informazioni su Terminofeu',
+    'footer.description':
+      'Terminofeu contiene i termini definiti nell’allegato 2 delle prescrizioni svizzere di protezione antincendio in lingua tedesca, francese e italiana. Inoltre, la banca dati terminologica comprende altri termini specialistici del settore della protezione antincendio.',
+    'footer.bsv': 'Prescrizioni svizzere di protezione antincendio',
+    'footer.links': 'Collegamenti',
+    'footer.termList': 'Elenco dei termini',
+    'footer.vkf':
+      'Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
+    'footer.languages': 'Lingue',
+    'footer.copyright':
+      '© 2026 Associazione degli istituti cantonali di assicurazione antincendio (AICAA)',
+    'warn.title': 'Attenzione',
+    'warn.message':
+      'I contenuti di questo sito sono ancora in fase di elaborazione.',
+    'warn.button': 'Ho capito',
+    'termList.title': 'Elenco dei termini',
+    'termList.back': 'Torna alla ricerca',
+    'termList.specialistTerms': 'Termini specialistici',
+    'termList.jumpTo': 'Vai alla lettera iniziale',
+    'termList.directTo': 'Accesso diretto',
+    'card.designation': 'Termine',
+    'card.additionalDesignations': 'Altre denominazioni',
+    'card.definition': 'Definizione',
+    'card.notes': 'Annotazioni',
+    'card.examples': 'Esempi',
+    'card.sourceOriginal': 'Citazione esatta',
+    'card.sourceAfter': 'Modificato da',
+  },
+} as const
+
+export function useTranslations(lang: keyof typeof ui | undefined) {
+  if (!lang) lang = defaultLocale
+  return function t(key: keyof (typeof ui)[typeof defaultLocale]) {
+    return ui[lang][key] || ui[defaultLocale][key]
+  }
+}

@@ -36,5 +36,10 @@
     "tsx": "^4.23.15",
     "typescript": "6.0.3"
   },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
   "packageManager": "pnpm@12.18.0"
 }

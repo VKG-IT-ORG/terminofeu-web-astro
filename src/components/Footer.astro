@@ -1,7 +1,10 @@
 ---
-import { languages } from '@/i18n/config'
-import { getLocaleUrl } from 'astro-i18n-aut'
+import { languages, useTranslations } from '@/i18n/config'
+import { getLocaleUrl, getLocale } from 'astro-i18n-aut'
 const currentPath = Astro.url.pathname
+
+const locale = getLocale(Astro.url) as LangKeys
+const t = useTranslations(locale) 
 ---
 
 <footer class="bg-white border-t border-gray-200">
@@ -9,21 +12,15 @@ const currentPath = Astro.url.pathname
     <div class="flex justify-center">
       <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-12 max-w-4xl">
         <div>
-          <h3 class="mb-4 text-gray-900">Über Terminofeu</h3>
-          <p class="text-sm text-gray-600">
-            Terminofeu enthält die Begriffe, die in Anhang 2 der Schweizerischen
-            Brandschutzvorschriften definiert sind, in deutscher, französischer
-            und italienischer Sprache. Darüber hinaus umfasst die
-            Terminologiedatenbank weitere Fachbegriffe aus dem Bereich
-            Brandschutz.
-          </p>
+          <h3 class="mb-4 text-gray-900">{t('footer.about')}</h3>
+          <p class="text-sm text-gray-600">{t('footer.description')}</p>
         </div>
         <div>
-          <h3 class="mb-4 text-gray-900">Links</h3>
+          <h3 class="mb-4 text-gray-900">{t('footer.links')}</h3>
           <ul class="space-y-2 text-sm text-gray-600">
             <li>
-              <a href="/begriffsliste/" class="hover:text-gray-900"
-                >Begriffsliste</a
+              <a href={getLocaleUrl('/begriffsliste/', locale)} class="hover:text-gray-900"
+                >{t('footer.termList')}</a
               >
             </li>
             <li>
@@ -31,7 +28,7 @@ const currentPath = Astro.url.pathname
                 href="https://www.bsvonline.ch/de/brandschutzvorschriften/projekt-bsv-2026"
                 target="_blank"
                 class="hover:text-gray-900"
-                >Schweizerische Brandschutzvorschriften</a
+                >{ t('footer.bsv') }</a
               >
             </li>
             <li>
@@ -39,13 +36,13 @@ const currentPath = Astro.url.pathname
                 href="https://www.bsvonline.ch/de/ueber-uns"
                 target="_blank"
                 class="hover:text-gray-900"
-                >Vereinung Kantonaler Feuerversicherungen VKF</a
+                >{t('footer.vkf')}</a
               >
             </li>
           </ul>
         </div>
         <div>
-          <h3 class="mb-4 text-gray-900">Sprachen</h3>
+          <h3 class="mb-4 text-gray-900">{t('footer.languages')}</h3>
           <ul class="space-y-2">
             {
               languages.map((lang) => (
@@ -69,7 +66,7 @@ const currentPath = Astro.url.pathname
     <div
       class="border-t pt-6 mt-8 text-center text-sm text-gray-500 border-gray-200"
     >
-      © 2026 Vereinigung Kantonaler Feuerversicherungen (VKF)
+      {t('footer.copyright')}
     </div>
   </div>
 </footer>

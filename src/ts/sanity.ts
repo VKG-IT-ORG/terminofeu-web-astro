@@ -43,6 +43,23 @@ export async function getTerms() {
 
 export async function getFiches() {
   const getFichesQuery = defineQuery(`
-  *[_type == 'entry' && status in ["approved", "validated", "in_force"]]`)
+  *[_type == 'entry' && status in ["approved", "validated", "in_force"]] {
+    ...,
+    content {
+      ...,
+      de { ..., "definitionSource": definitionSource {
+        type,
+        "source": reference->{title, longTitle, date, url}
+      }},
+      fr { ..., "definitionSource": definitionSource {
+        type,
+        "source": reference->{title, longTitle, date, url}
+      }},
+      it { ..., "definitionSource": definitionSource {
+        type,
+        "source": reference->{title, longTitle, date, url}
+      }}
+    }
+  }`)
   return client.fetch(getFichesQuery)
 }

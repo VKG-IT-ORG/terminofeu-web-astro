@@ -1,16 +1,23 @@
 ---
 import { Search, CornerDownLeft } from '@lucide/astro'
+import { getLocale } from 'astro-i18n-aut'
+import { useTranslations } from '@/i18n/config'
+import { getLocaleUrl } from 'astro-i18n-aut'
+
+const locale = getLocale(Astro.url) as LangKeys
+const t = useTranslations(locale)
+const entryUrlPrefix = getLocaleUrl('/eintrag/', locale)
 ---
 
 <form
-  x-data="search"
+  x-data={`search('${entryUrlPrefix}')`}
   x-init="$refs.searchInput.focus()"
   class="relative mt-10"
   @submit.prevent="goToFiche"
 >
   <div class="relative flex items-center">
     <label for="search-field" class="sr-only"
-      >Brandschutzbegriffe suchen...</label
+      >{t('search.placeholder')}</label
     >
     <Search class="w-10 h-10 absolute pointer-events-none text-gray-400 pl-4" />
     <input
@@ -29,7 +36,7 @@ import { Search, CornerDownLeft } from '@lucide/astro'
       :aria-expanded="showBox"
       :aria-activedescendant="searchResults.length ? `search-item-${selectedIndex}` : ''"
       class="w-full pl-14 p-4 shadow-md focus:outline-none rounded-lg focus:border-accent border-2 border-primary hover:border-accent text-xl bg-white"
-      placeholder="Brandschutzbegriffe suchen..."
+      placeholder={t('search.placeholder')}
       @keydown.arrow-down.prevent=" moveDownList()"
       @keydown.arrow-up.prevent="moveUpList()"
       @input="selectedIndex = 0"
@@ -55,9 +62,17 @@ import { Search, CornerDownLeft } from '@lucide/astro'
         :id="`search-item-${index}`"
       >
         <a
-          :href="`/eintrag/${result.item.slug}/`"
-          x-text="result.item.term"
-          class="text-lg py-2 px-8 block"></a>
+          :href="entryUrlPrefix + result.item.slug + '/'"
+          class="text-lg py-2 px-8 flex items-center gap-3"
+        >
+          <span
+            x-html="result.item.flag"
+            class="w-5 h-4 shrink-0"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only" x-text="result.item.lang"></span>
+          <span x-text="result.item.term"></span>
+        </a>
 
         <CornerDownLeft
           class="w-10 h-10 text-white pl-4 absolute pointer-events-none right-5 top-1 hidden xl:inline"
@@ -72,7 +87,7 @@ import { Search, CornerDownLeft } from '@lucide/astro'
       x-show="searchPattern && !searchResults.length"
       class="text-lg pl-2"
     >
-      Aucun résultat pour <b x-text="searchPattern"></b>
+      {t('search.noResults')} <b x-text="searchPattern"></b>
     </p>
   </div>
 </form>

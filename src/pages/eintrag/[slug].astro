@@ -6,9 +6,10 @@ import fichesList from '@/terms-list.json'
 import { getFiches } from '@/ts/sanity'
 import { getLocale } from 'astro-i18n-aut'
 
-import { languages } from '@/i18n/config'
+import { languages, useTranslations } from '@/i18n/config'
 
 const locale = getLocale(Astro.url)
+const t = useTranslations(locale as LangKeys)
 
 export async function getStaticPaths() {
   const fiches = await getFiches()
@@ -36,13 +37,18 @@ const titlesByLocale: Record<string, string | undefined> = {
   fr: fiche.frTitle,
   it: fiche.itTitle,
 }
-const vedette = titlesByLocale[locale] ?? 'Fiche'
+const vedette = titlesByLocale[locale] ?? t('search.entryFallback')
 ---
 
 <Layout title={vedette}>
-  <Search />
 
-  <div class="flex gap-6 flex-wrap justify-center mt-16 mb-24">
+  <section class="mt-8">
+  <Search />
+  </section>
+
+  <section
+    class="grid grid-cols-1 items-stretch justify-items-center gap-x-6 gap-y-0 mt-16 mb-24 sm:grid-cols-2 lg:grid-cols-3"
+  >
     {
       languages.map((lang) => {
         const content = fiche.content?.[lang.code]
@@ -52,5 +58,5 @@ const vedette = titlesByLocale[locale] ?? 'Fiche'
         ) : null
       })
     }
-  </div>
+  </section>
 </Layout>

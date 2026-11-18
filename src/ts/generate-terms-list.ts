@@ -2,21 +2,21 @@ import fs from 'fs'
 import { getTerms } from './sanity.js'
 import { slugifyWithCounter } from '@sindresorhus/slugify'
 import type { GetTermsQueryResult } from '../types/sanity.types.js'
+import { languages } from '../i18n/config.js'
 
 const slugify = slugifyWithCounter()
-
-type LanguageCode = 'de' | 'fr' | 'it'
 
 interface DesignatedTerm {
   key: string
   entry_id: string
   term: string
   status: string | null
-  lang: LanguageCode
+  lang: LangKeys
+  flag: string
 }
 
 function removeDuplicates<T extends { entry_id: string; term: string }>(
-  arr: T[],
+  arr: T[]
 ): T[] {
   const seen = new Set()
   return arr.filter((obj) => {
@@ -31,9 +31,14 @@ function removeDuplicates<T extends { entry_id: string; term: string }>(
 
 function getDesignations(
   entries: GetTermsQueryResult,
-  lang: LanguageCode,
+  lang: LangKeys
 ): DesignatedTerm[] {
-  const property: `terms_${LanguageCode}` = `terms_${lang}`
+  const property: `terms_${LangKeys}` = `terms_${lang}`
+  const language = languages.find(({ code }) => code === lang)
+  if (!language) {
+    throw new Error(`Missing language configuration for "${lang}"`)
+  }
+
   return entries
     .flatMap((entry) => {
       const terms = entry[property]
@@ -41,13 +46,16 @@ function getDesignations(
 
       return terms.flatMap((term): DesignatedTerm[] => {
         if (!term.designation) return []
-        const designations: DesignatedTerm[] = [{
-          key: 't_' + term._key,
-          entry_id: entry._id,
-          term: term.designation,
-          status: term.status,
-          lang,
-        }]
+        const designations: DesignatedTerm[] = [
+          {
+            key: 't_' + term._key,
+            entry_id: entry._id,
+            term: term.designation,
+            status: term.status,
+            lang,
+            flag: language.flag,
+          },
+        ]
         if (term.abbreviation) {
           designations.push({
             key: 'a_' + term._key,
@@ -55,12 +63,15 @@ function getDesignations(
             term: term.abbreviation,
             status: term.status,
             lang,
+            flag: language.flag,
           })
         }
         return designations
       })
     })
-    .filter((term) => term.status !== 'avoid' && term.status !== 'to_be_defined')
+    .filter(
+      (term) => term.status !== 'avoid' && term.status !== 'to_be_defined'
+    )
 }
 
 async function main() {
@@ -73,7 +84,7 @@ async function main() {
   const terms_it = getDesignations(entries, 'it')
 
   const terms = removeDuplicates([...terms_de, ...terms_fr, ...terms_it]).map(
-    (term) => ({ slug: slugify(term.term), ...term }),
+    (term) => ({ slug: slugify(term.term), ...term })
   )
 
   fs.writeFileSync(

@@ -12,6 +12,7 @@ interface SearchComponent {
   searchPattern: string
   showBox: boolean
   selectedIndex: number
+  entryUrlPrefix: string
   init(): void
   moveUpList(): void
   moveDownList(): void
@@ -34,45 +35,54 @@ export default (Alpine: Alpine.Alpine) => {
     showWarnPopup: Alpine.$persist(true).as('work_in_progress_acknowledged'),
   })
 
-  Alpine.data<SearchComponent, []>('search', () => ({
-    init() {
-      this.$watch('searchPattern', (value: string) => {
-        if (!value) {
-          this.searchResults = []
-          return
+  Alpine.data<SearchComponent, [string]>(
+    'search',
+    (entryUrlPrefix: string) => ({
+      init() {
+        this.$watch('searchPattern', (value: string) => {
+          if (!value) {
+            this.searchResults = []
+            return
+          }
+          this.showBox = true
+          this.searchResults = fuse.search(
+            {
+              $and: [
+                { term: value.trim() },
+                {
+                  $or: this.$store.global.langs.map((lang: string) => ({
+                    lang,
+                  })),
+                },
+              ],
+            },
+            { limit: 7 },
+          )
+        })
+      },
+      searchResults: new Array<FuseResult<SearchTerm>>(),
+      searchPattern: '',
+      showBox: false,
+      selectedIndex: 0,
+      entryUrlPrefix,
+      moveUpList() {
+        this.selectedIndex > 0
+          ? this.selectedIndex--
+          : (this.selectedIndex = this.searchResults.length - 1)
+      },
+      moveDownList() {
+        this.selectedIndex < this.searchResults.length - 1
+          ? this.selectedIndex++
+          : (this.selectedIndex = 0)
+      },
+      goToFiche() {
+        if (this.searchResults.length) {
+          window.location.href =
+            this.entryUrlPrefix +
+            this.searchResults[this.selectedIndex].item.slug +
+            '/'
         }
-        this.showBox = true
-        this.searchResults = fuse.search(
-          {
-            $and: [
-              { term: value.trim() },
-              { $or: this.$store.global.langs.map((lang: string) => ({ lang })) },
-            ],
-          },
-          { limit: 7 },
-        )
-      })
-    },
-    searchResults: new Array<FuseResult<SearchTerm>>(),
-    searchPattern: '',
-    showBox: false,
-    selectedIndex: 0,
-    moveUpList() {
-      this.selectedIndex > 0
-        ? this.selectedIndex--
-        : (this.selectedIndex = this.searchResults.length - 1)
-    },
-    moveDownList() {
-      this.selectedIndex < this.searchResults.length - 1
-        ? this.selectedIndex++
-        : (this.selectedIndex = 0)
-    },
-    goToFiche() {
-      if (this.searchResults.length) {
-        window.location.href = `/eintrag/${
-          this.searchResults[this.selectedIndex].item.slug
-        }/`
-      }
-    },
-  }))
+      },
+    }),
+  )
 }
