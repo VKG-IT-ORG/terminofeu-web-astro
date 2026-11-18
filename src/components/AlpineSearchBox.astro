@@ -63,8 +63,16 @@ const entryUrlPrefix = getLocaleUrl('/eintrag/', locale)
       >
         <a
           :href="entryUrlPrefix + result.item.slug + '/'"
-          x-text="result.item.term"
-          class="text-lg py-2 px-8 block"></a>
+          class="text-lg py-2 px-8 flex items-center gap-3"
+        >
+          <span
+            x-html="result.item.flag"
+            class="w-5 h-4 shrink-0"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only" x-text="result.item.lang"></span>
+          <span x-text="result.item.term"></span>
+        </a>
 
         <CornerDownLeft
           class="w-10 h-10 text-white pl-4 absolute pointer-events-none right-5 top-1 hidden xl:inline"
